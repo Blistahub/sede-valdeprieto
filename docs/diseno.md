@@ -59,8 +59,17 @@ expediente. Esto es más veraz y además es testeable: cada estado tiene su toke
 | Registrado | `--sello` (fondo) + `--tinta` (texto) | Cuño + número de registro |
 | En revisión | `--azul` | Icono de reloj + texto |
 | Subsanación requerida | `--lacre` | Icono de aviso + **días hábiles restantes** |
+| Propuesta provisional | `--azul` | Icono de documento + **días de alegaciones restantes** |
+| Propuesta definitiva | `--azul` | Icono de documento + texto «pendiente de resolución» |
 | Resuelto favorable | `--verde-500` | Icono de check + fecha de resolución |
-| Desistido / caducado | `--gris` | Texto tachado + motivo |
+| Resuelto desfavorable | `--gris` | Icono de círculo tachado + motivo |
+| Desistido | `--gris` | Texto tachado + motivo |
+| Inadmitido | `--gris` | Texto tachado + motivo de inadmisión |
+
+Las dos propuestas comparten el token `--azul` con «en revisión». Es deliberado —las tres
+son fases de instrucción en curso— y **obliga** a que la diferencia entre ellas se
+comunique con texto. Tres estados con el mismo color y sin texto distinto serían tres
+estados indistinguibles.
 
 El color nunca va solo. Siempre color **+** texto **+** forma.
 
@@ -82,8 +91,25 @@ El color nunca va solo. Siempre color **+** texto **+** forma.
 | **`--sello` sobre `--papel`** | **2.81:1** | **PROHIBIDO como texto o borde único** |
 | **`--linea` sobre `--papel`** | **1.39:1** | **Solo filete decorativo, nunca funcional** |
 
-Las dos últimas filas son las trampas del sistema. Si alguna vez ves texto dorado sobre
-papel, es un bug de accesibilidad.
+Sobre superficies elevadas `--papel-alto` —tarjetas, modales y el justificante— las
+parejas son otras. Añadidas por
+[ADR 0002](decisiones/0002-ampliacion-matriz-contraste.md):
+
+| Combinación | Ratio | Uso permitido |
+| --- | --- | --- |
+| `--verde-700` sobre `--papel-alto` | 11.08:1 | Todo |
+| `--azul` sobre `--papel-alto` | 8.66:1 | Todo |
+| `--lacre` sobre `--papel-alto` | 8.19:1 | Todo |
+| `--verde-500` sobre `--papel-alto` | 6.39:1 | Todo |
+| `--gris` sobre `--papel-alto` | 6.06:1 | Texto secundario |
+| `--linea-fuerte` sobre `--papel-alto` | 3.81:1 | Bordes funcionales (WCAG 1.4.11) |
+| **`--sello` sobre `--papel-alto`** | **3.19:1** | **PROHIBIDO como texto.** Solo cuño y anillo de foco |
+| **`--linea` sobre `--papel-alto`** | **1.59:1** | **Solo filete decorativo, nunca funcional** |
+
+Las cuatro filas en negrita son las trampas del sistema. Si alguna vez ves texto dorado,
+sobre papel o sobre blanco, es un bug de accesibilidad: `--sello` no llega a 4.5:1 en
+**ninguna** superficie. Donde haya que escribir sobre el cuño se hace al revés, con
+`--sello` de fondo y `--tinta` encima (5.50:1).
 
 ## 3. Tipografía
 

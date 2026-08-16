@@ -33,31 +33,51 @@ es una *ayuda*; *registrar* no es *guardar*; *presentar* no es *enviar*.
 ## 2. Máquina de estados del expediente
 
 ```
-                    ┌──────────┐
-                    │ BORRADOR │  sin efectos legales, editable
-                    └────┬─────┘
-                         │ registrar  (irreversible)
-                    ┌────▼──────────┐
-                    │  REGISTRADO   │  nº + sello de tiempo
-                    └────┬──────────┘
-                         │ asignar a instructor
-                    ┌────▼──────────┐
-        ┌───────────┤  EN_REVISION  ├───────────┐
-        │           └────┬──────────┘           │
-        │ requerir       │ documentación ok     │ desistir
-   ┌────▼─────────────┐  │                 ┌────▼─────┐
-   │ SUBSANACION_REQ  │  │                 │DESISTIDO │
-   └────┬──────┬──────┘  │                 └──────────┘
- aporta │      │ vence plazo                     ▲
-        │      └──────────────────────────────────┘
-        │                │
-        │           ┌────▼──────────┐
-        └──────────►│   PROPUESTA   │
-                    └────┬──────────┘
-                    ┌────▼──────────┐
-                    │   RESUELTO    │  favorable | desfavorable
-                    └───────────────┘
+                       ┌──────────────┐
+                       │   BORRADOR   │  sin efectos legales, editable
+                       └──────┬───────┘
+                              │ registrar  (irreversible)
+                       ┌──────▼───────┐
+                       │  REGISTRADO  │  nº de registro + sello de tiempo
+                       └──────┬───────┘
+                              │ asignar a instructor
+                       ┌──────▼───────┐
+              ┌────────┤ EN_REVISION  │
+     requerir │        └──────┬───────┘
+  ┌───────────▼───────────┐   │
+  │ SUBSANACION_REQUERIDA │   │ valoración completa de la convocatoria
+  └───────────┬───────────┘   │
+              │ aporta en plazo
+              └────────►──────┤
+                              │
+                 ┌────────────▼────────────┐
+                 │  PROPUESTA_PROVISIONAL  │  abre el plazo de alegaciones
+                 └────────────┬────────────┘
+                              │ alegaciones resueltas
+                 ┌────────────▼────────────┐
+                 │  PROPUESTA_DEFINITIVA   │
+                 └───┬─────────────────┬───┘
+          resolver   │                 │   resolver
+         favorable   │                 │   desfavorable
+  ┌─────────────────▼───┐         ┌────▼─────────────────────┐
+  │ RESUELTO_FAVORABLE  │         │  RESUELTO_DESFAVORABLE   │
+  └─────────────────────┘         └──────────────────────────┘
+
+  Terminales alcanzables en paralelo:
+
+  INADMITIDO  ◄── inadmitir (jefe de servicio), desde REGISTRADO y EN_REVISION.
+                  Presentación fuera de plazo, falta de legitimación o duplicidad.
+                  Deja de ser posible una vez emitida la propuesta provisional.
+
+  DESISTIDO   ◄── desistir (persona interesada), desde REGISTRADO, EN_REVISION,
+                  SUBSANACION_REQUERIDA, PROPUESTA_PROVISIONAL y PROPUESTA_DEFINITIVA.
+              ◄── vencimiento del plazo de subsanación, con actor «sistema».
 ```
+
+Diez estados, dieciséis transiciones, ochenta y cinco pares prohibidos. El desarrollo
+completo —actores autorizados, precondiciones, efectos y la matriz de adyacencia entera—
+está en `docs/modelo-dominio.md` §4. La extensión de ocho a diez estados está justificada
+en `docs/decisiones/0003-extension-maquina-estados.md`.
 
 **Invariantes:**
 
@@ -67,10 +87,26 @@ es una *ayuda*; *registrar* no es *guardar*; *presentar* no es *enviar*.
   motivo. La traza es inmutable y consultable.
 - Desde `REGISTRADO` en adelante, la solicitud es inmutable. Los cambios se hacen
   aportando documentación nueva, no editando la original.
+- **Quien aporta documentación de subsanación devuelve el expediente a `EN_REVISION`**,
+  nunca directamente a la propuesta: alguien tiene que revisar lo aportado. Proponer sin
+  revisar es indefendible ante una reclamación.
 - El vencimiento del plazo de subsanación produce `DESISTIDO` de forma automática. Esa
   transición también se registra, con actor `sistema`.
+- La inadmisión tiene ventana: procede hasta la propuesta provisional. A partir de ahí lo
+  que corresponde es resolver de forma desfavorable, no inadmitir.
 - Una transición no contemplada en el diagrama lanza un error de dominio tipado. No hay
   transición «por defecto».
+- **El vencimiento del plazo máximo de resolución no cambia el estado.** Produce silencio
+  desestimatorio, que es un derecho de la persona interesada (Ley 38/2003, art. 25.5), no
+  una transición. La Administración sigue obligada a resolver.
+
+> **Divergencia conocida con la norma.** El desistimiento automático que fija este
+> documento no encaja del todo con el art. 68.1 de la Ley 39/2015, que dice que se le
+> tendrá por desistido «previa resolución que deberá ser dictada en los términos
+> previstos en el artículo 21». En Derecho hace falta un acto expreso. Se mantiene aquí
+> la transición automática por decisión de producto, y la divergencia queda anotada como
+> DT-03 en `docs/deuda-tecnica.md`. La alternativa fiel sería un estado intermedio
+> `PENDIENTE_DESISTIMIENTO` que el jefe de servicio confirma, y necesitaría su propio ADR.
 
 Cada transición del diagrama tiene su test unitario, incluidas las **transiciones
 prohibidas**, que deben fallar de forma explícita.
