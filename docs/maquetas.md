@@ -58,10 +58,10 @@ relativa de WCAG 2.1, no estimadas:
 | `--sello` sobre `--papel-alto` | 3.19:1 | **Solo** anillo de foco y cuño. Nunca texto |
 | `--linea` sobre `--papel-alto` | 1.59:1 | **Solo** filete decorativo, nunca funcional |
 
-**Estas siete filas son una ampliación de un documento normativo y necesitan ADR antes
-de darse por firmes.** No contradicen ninguna fila existente: la prohibición de
-`--sello` como texto se mantiene y de hecho se agrava, porque 3.19:1 tampoco llega a los
-4.5:1 que exige el texto normal.
+**Estas ocho filas ya están incorporadas a `docs/diseno.md` §2**, con el respaldo del
+[ADR 0002](decisiones/0002-ampliacion-matriz-contraste.md). No contradicen ninguna fila
+existente: la prohibición de `--sello` como texto se mantiene y de hecho se agrava,
+porque 3.19:1 tampoco llega a los 4.5:1 que exige el texto normal.
 
 **Por qué el anillo de foco tiene dos capas.** Sobre `--papel`, `--sello` da 2.81:1, por
 debajo del mínimo de 3:1 de WCAG 1.4.11; la capa interior de `--tinta` lo resuelve con
@@ -854,8 +854,8 @@ es media pantalla.
 
 ## 7. Lo que este documento deja pendiente
 
-1. **Las siete filas nuevas de la matriz de contraste** necesitan un ADR antes de darse
-   por firmes, porque amplían un documento normativo.
+1. ~~Las filas nuevas de la matriz de contraste necesitan un ADR.~~ **Resuelto**:
+   incorporadas a `docs/diseno.md` §2 mediante el ADR 0002.
 2. **El cuño de registro necesita trabajo de ilustración.** Sin él, el elemento firma es
    una insignia dorada y `docs/diseno.md` §7 promete otra cosa.
 3. **El área de gestión necesita una pasada de dirección propia.** Cuatro de las cinco

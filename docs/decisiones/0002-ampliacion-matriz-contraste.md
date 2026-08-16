@@ -35,7 +35,7 @@ normal. Descartada.
 
 ## Decisión
 
-Se añaden siete filas a la matriz de `docs/diseno.md` §2, calculadas con la fórmula de
+Se añaden ocho filas a la matriz de `docs/diseno.md` §2, calculadas con la fórmula de
 luminancia relativa de WCAG 2.1 (§1.4.3 y §1.4.11), no estimadas:
 
 | Combinación | Ratio | Uso permitido |
