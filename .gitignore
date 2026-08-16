@@ -1,0 +1,39 @@
+# Dependencias
+node_modules/
+.pnpm-store/
+
+# Build
+.next/
+out/
+build/
+dist/
+storybook-static/
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Pruebas y evidencias generadas
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+allure-results/
+allure-report/
+.lighthouseci/
+
+# Track B (Maven)
+selenium/target/
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Datos sintéticos generados por las ejecuciones de prueba
+tests/datos/generados/
