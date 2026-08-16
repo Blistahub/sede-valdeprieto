@@ -1,0 +1,23 @@
+# Normalización de finales de línea.
+# La CI se ejecuta en Linux y el desarrollo en Windows. Sin esta normalización,
+# cada commit desde Windows introduce CRLF y los diff se vuelven ilegibles.
+* text=auto eol=lf
+
+# Binarios: nunca normalizar.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.mp4 binary
+*.webm binary
+
+# Ficheros que deben conservar CRLF por exigencia de la plataforma.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Excluir del cálculo de lenguajes de GitHub las evidencias generadas.
+docs/accesibilidad/evidencias/** linguist-documentation
