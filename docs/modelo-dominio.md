@@ -176,8 +176,15 @@ El registro es el acto irreversible. Genera número, sello y huella.
 (`InstanteUTC`, **tomado en servidor**), `huellaSolicitud`, `csv`.
 
 `Justificante`: `csv` (código seguro de verificación, 16 caracteres del alfabeto
-Crockford base32 sin vocales, para poder dictarlo por teléfono `[D-15]`), `numeroRegistro`,
-`selloTiempo`, `huella`, `expedienteId`, `urlVerificacion`.
+**Crockford base32**, que excluye `I`, `L`, `O` y `U` para que no se confundan con `1`,
+`0` y sus vecinas al dictarlo por teléfono `[D-15]`), `numeroRegistro`, `selloTiempo`,
+`huella`, `expedienteId`, `urlVerificacion`.
+
+**Un solo formato por identificador.** `numeroRegistro` es siempre `REG-2026-001427`: es
+lo que se almacena, se copia, se busca y se compara. La agrupación con puntos medios
+—`REG · 2026 · 001427`— es exclusivamente de **presentación**, para poder dictarlo. Dos
+formatos para el mismo identificador legal es garantía de que tarde o temprano uno de los
+dos miente.
 
 El CSV se consulta en `/verificar/{csv}`, pública y sin autenticación, que devuelve
 únicamente: número de registro, sello de tiempo, convocatoria y huella. **Ningún dato

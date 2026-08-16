@@ -34,16 +34,21 @@ Característica: Cómputo de plazos en días hábiles
     Entonces el plazo vence el primer día hábil siguiente
 
   Esquema del escenario: Casos límite del cómputo
-    Dado un requerimiento notificado el "<notificación>"
-    Cuando se calcula un plazo de <días> días hábiles
-    Entonces el plazo vence el "<vencimiento>"
+    Dado el caso límite "<caso>"
+    Cuando se calcula su plazo en días hábiles
+    Entonces el vencimiento coincide con el valor calculado a mano en la tabla de casos
 
     Ejemplos:
-      | notificación | días | vencimiento | motivo                          |
-      | 20-12        | 10   | 09-01       | cruza Navidad y el fin de año   |
-      | 22-03        | 10   | 05-04       | cruza el cambio de hora de marzo|
-      | 21-10        | 10   | 06-11       | cruza el cambio de hora octubre |
-      | 27-02        | 3    | 04-03       | año bisiesto                    |
+      | caso                                                     |
+      | plazo que cruza Navidad y el fin de año                  |
+      | plazo que cruza el cambio de hora de marzo               |
+      | plazo que cruza el cambio de hora de octubre             |
+      | plazo en año bisiesto que atraviesa el 29 de febrero     |
+      | festivo local solo en el municipio de residencia         |
+      | festivo local solo en la sede del órgano                 |
+      | notificación en día inhábil                              |
+      | festivo declarado que cae en domingo                     |
+      | plazo de 0 días                                          |
 
   Escenario: Un festivo local del municipio de residencia hace inhábil el día
     Dado que la persona interesada reside en un municipio con festivo local propio
@@ -67,6 +72,13 @@ Característica: Cómputo de plazos en días hábiles
 **Notas.** Los 16 casos límite de `docs/modelo-dominio.md` §6.7 son obligatorios, con
 valores esperados calculados a mano y no generados por el propio código. Cobertura 100 %.
 Prohibida la aritmética de milisegundos.
+
+**Por qué el esquema nombra los casos en lugar de fijar fechas.** Una fecha de
+vencimiento concreta solo es verificable contra un calendario de festivos concreto, y ese
+calendario es E0-H02, que todavía no existe. Escribir aquí «20-12 vence el 09-01» sería
+presentar una suposición plausible como criterio de aceptación, que es justo lo que
+prohíbe `CLAUDE.md` §0.2. La tabla de valores esperados se completa a mano en el mismo
+commit que el calendario. Anotado como DT-08 en `docs/deuda-tecnica.md`.
 
 ---
 

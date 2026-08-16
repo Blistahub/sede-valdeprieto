@@ -1,0 +1,28 @@
+{
+  "$comentario": "Nombres sintéticos del proyecto. docs/dominio.md §4 obliga a que todo nombre de persona salga de este fichero. Son nombres y apellidos de uso común en España, combinados por la generación de datos de prueba; ninguna combinación pretende identificar a una persona concreta y ninguna corresponde a persona conocida. Prohibido añadir aquí el nombre de una persona real.",
+  "version": 1,
+  "sintetico": true,
+  "nombres": [
+    "Alba", "Andrés", "Beatriz", "Carmen", "Clara", "Daniel", "Elena", "Emilio",
+    "Fátima", "Gonzalo", "Inés", "Iván", "Julia", "Lucía", "Manuel", "Marta",
+    "Nuria", "Óscar", "Paula", "Ramón", "Rocío", "Sergio", "Teresa", "Víctor"
+  ],
+  "primerApellido": [
+    "Abad", "Bermejo", "Cifuentes", "Duarte", "Escudero", "Fandiño", "Gallardo",
+    "Herrera", "Izaguirre", "Jaramillo", "Lasheras", "Montero", "Nogueira",
+    "Ontiveros", "Pedraza", "Quintanilla", "Requena", "Salgado", "Tejedor",
+    "Urbina", "Valcárcel", "Yepes", "Zabaleta"
+  ],
+  "segundoApellido": [
+    "Aguirre", "Berrocal", "Cañizares", "Delgado", "Esteban", "Ferreiro",
+    "Gaztelu", "Hidalgo", "Irisarri", "Larrañaga", "Mendizábal", "Navascués",
+    "Olivares", "Peñalver", "Retuerto", "Sanchidrián", "Trigueros", "Villalba",
+    "Zubieta"
+  ],
+  "personalGestion": [
+    { "nombre": "Nuria Tejedor Peñalver", "rol": "tramitador" },
+    { "nombre": "Emilio Quintanilla Berrocal", "rol": "tramitador" },
+    { "nombre": "Teresa Valcárcel Irisarri", "rol": "jefe_servicio" },
+    { "nombre": "Andrés Lasheras Olivares", "rol": "auditor" }
+  ]
+}

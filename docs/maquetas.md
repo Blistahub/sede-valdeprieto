@@ -56,6 +56,7 @@ relativa de WCAG 2.1, no estimadas:
 | `--gris` sobre `--papel-alto` | 6.06:1 | Texto secundario sobre tarjeta |
 | `--linea-fuerte` sobre `--papel-alto` | 3.81:1 | Bordes funcionales sobre tarjeta |
 | `--sello` sobre `--papel-alto` | 3.19:1 | **Solo** anillo de foco y cuño. Nunca texto |
+| `--linea` sobre `--papel-alto` | 1.59:1 | **Solo** filete decorativo, nunca funcional |
 
 **Estas siete filas son una ampliación de un documento normativo y necesitan ADR antes
 de darse por firmes.** No contradicen ninguna fila existente: la prohibición de
@@ -371,7 +372,7 @@ fuentes de la misma cifra. Con dos versiones, tarde o temprano una miente.
 ┌────────────────────────────────────────────────────────────────────────┐
 │ Portal de demostración · Municipio ficticio · Sin validez administrativa│
 ├────────────────────────────────────────────────────────────────────────┤
-│  AYUNTAMIENTO DE VALDEPRIETO                            María P. · Salir│
+│  AYUNTAMIENTO DE VALDEPRIETO                            Marta R. · Salir│
 ├────────────────────────────────────────────────────────────────────────┤
 │ Inicio › Convocatorias › Ayudas al alquiler › Solicitud                 │
 ├──────────────────────────────────────────┬─────────────────────────────┤
@@ -456,16 +457,25 @@ texto. Quien no distinga el rojo del gris sigue viendo el icono y leyendo el men
 
 1. «Ir al contenido principal»
 2. Escudo / nombre del ayuntamiento
-3. Menú de sesión «María P.»
+3. Menú de sesión «Marta R.»
 4. «Salir»
-5. Migas: «Inicio», «Convocatorias», «Ayudas al alquiler» (4 posiciones, 5–8)
-9. Enlace del resumen de errores → «Certificado de empadronamiento»
-10. Campo de fichero «Certificado de empadronamiento»
-11. Campo de fichero «Contrato de arrendamiento»
-12. Botón «Quitar el contrato de arrendamiento»
-13. Botón «Atrás»
-14. Botón «Continuar»
-15–18. Enlaces del pie
+5. Miga «Inicio»
+6. Miga «Convocatorias»
+7. Miga «Ayudas al alquiler»
+8. Enlace del resumen de errores → «Certificado de empadronamiento»
+9. Campo de fichero «Certificado de empadronamiento»
+10. Campo de fichero «Contrato de arrendamiento»
+11. Botón «Quitar el contrato de arrendamiento»
+12. Botón «Atrás»
+13. Botón «Continuar»
+14. «Declaración de accesibilidad»
+15. «Reclamaciones»
+16. «Privacidad»
+17. «Contacto»
+
+La última miga —«Solicitud», la página actual— no es un enlace y por tanto no ocupa
+posición. Marcarla con `aria-current="page"` y dejarla como texto evita un enlace que no
+lleva a ninguna parte.
 
 El raíl de pasos **no** es tabulable: es un indicador de progreso, no un navegador. Se
 lee como lista ordenada y el paso actual lleva `aria-current="step"`.
@@ -540,7 +550,7 @@ Es el elemento firma. Todo lo demás calla para que este momento suene.
 ┌────────────────────────────────────────────────────────────────────────┐
 │ Portal de demostración · Municipio ficticio · Sin validez administrativa│
 ├────────────────────────────────────────────────────────────────────────┤
-│  AYUNTAMIENTO DE VALDEPRIETO                            María P. · Salir│
+│  AYUNTAMIENTO DE VALDEPRIETO                            Marta R. · Salir│
 ├────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │    ┌───────────────────────────────────────────────────────────────┐   │
@@ -549,7 +559,7 @@ Es el elemento firma. Todo lo demás calla para que este momento suene.
 │    │                                                    │ CUÑO   │ │   │
 │    │  Solicitud registrada                              │ REG.   │ │   │
 │    │                                                    ╰────────╯ │   │
-│    │  2026 · 004 · 001427                                          │   │ ← Display 56 mono
+│    │  REG · 2026 · 001427                                          │   │ ← Display 56 mono
 │    │                                                               │   │
 │    │  16 de agosto de 2026, 12:47:03                                │   │
 │    │                                                               │   │
@@ -577,8 +587,11 @@ Es el elemento firma. Todo lo demás calla para que este momento suene.
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-El número de registro va en grupos separados para poder dictarlo por teléfono: «dos mil
-veintiséis, cero cero cuatro, cero cero uno cuatro dos siete».
+El número de registro es `REG-2026-001427` —un único formato, el que fija
+`docs/modelo-dominio.md` §3.6— y se **presenta** con los grupos separados para poder
+dictarlo por teléfono: «registro, dos mil veintiséis, cero cero uno cuatro dos siete».
+El separador es de presentación; el identificador que se copia, se busca y se compara es
+siempre `REG-2026-001427`.
 
 ### Jerarquía tipográfica
 
@@ -586,7 +599,7 @@ veintiséis, cero cero cuatro, cero cero uno cuatro dos siete».
 | --- | --- | --- |
 | «JUSTIFICANTE DE PRESENTACIÓN» | Etiqueta | 13/16, Archivo 600, versalitas |
 | «Solicitud registrada» | H1 | 36/44, Archivo 700 |
-| `2026 · 004 · 001427` | Display | 56/60, IBM Plex Mono 500, `tabular-nums` |
+| `REG-2026-001427`, mostrado `REG · 2026 · 001427` | Display | 56/60, IBM Plex Mono 500, `tabular-nums` |
 | Sello de tiempo | Dato | 16/24, IBM Plex Mono 500 |
 | Etiquetas de la ficha | Auxiliar | 15/24 |
 | Valores de la ficha | Dato | 16/24, IBM Plex Mono 500 |
@@ -607,7 +620,7 @@ legal, no un titular.
 | `--sello` sobre `--papel-alto` | 3.19:1 | Contorno del cuño, elemento no textual |
 | `--papel-alto` sobre `--verde-700` | 11.08:1 | Botón «Descargar justificante» |
 | `--verde-700` sobre `--papel` | 9.74:1 | Botón secundario |
-| `--linea` sobre `--papel-alto` | ~1.3:1 | Filete horizontal interior, decorativo |
+| `--linea` sobre `--papel-alto` | 1.59:1 | Filete horizontal interior, decorativo |
 
 **Sin sombra.** El justificante es papel sobre papel: se separa por superficie
 (`--papel-alto` sobre `--papel`) y por filete. Una sombra flotante lo convertiría en una
@@ -633,7 +646,7 @@ información —que la solicitud está registrada, y su número— está en text
 
 **Al completar la acción principal** (registrar), en `aria-live="polite"`:
 
-> «Solicitud registrada con el número 2026 004 001427, el 16 de agosto de 2026 a las
+> «Solicitud registrada con el número REG 2026 001427, el 16 de agosto de 2026 a las
 > 12:47 y 3 segundos.»
 
 Y a continuación el foco aterriza en el botón, que se anuncia:
@@ -659,7 +672,7 @@ verificación que se dibuja.**
 
 - El justificante ocupa el ancho completo menos 16 px de margen a cada lado.
 - El Display de 56 px baja a 36/44 manteniendo la monoespaciada y los grupos separados;
-  a 320 px, `2026 · 004 · 001427` en 56 px se saldría de la pantalla.
+  a 320 px, `REG · 2026 · 001427` en 56 px se saldría de la pantalla.
 - El cuño se coloca bajo el número, centrado, a 96 px. No se elimina: es el elemento
   firma y es lo único que se permite ocupar espacio sin aportar texto.
 - La ficha pasa de dos columnas a etiqueta sobre valor.
@@ -694,7 +707,7 @@ está a un clic desde «Mis solicitudes» y aquí compite con la única acción 
 ┌────────────────────────────────────────────────────────────────────────┐
 │ Portal de demostración · Municipio ficticio · Sin validez administrativa│
 ├────────────────────────────────────────────────────────────────────────┤
-│  AYUNTAMIENTO DE VALDEPRIETO · GESTIÓN            J. Ramos · Tramitador │
+│  AYUNTAMIENTO DE VALDEPRIETO · GESTIÓN            N. Tejedor · Tramitadora │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Inicio › Bandeja                                                        │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -707,10 +720,10 @@ está a un clic desde «Mis solicitudes» y aquí compite con la única acción 
 │ ┌───────────┬────────────┬──────────────┬──────────┬───────────┬──────┐ │
 │ │ Expediente│ Registro   │ Estado       │ Plazo    │ Asignado  │      │ │
 │ ├───────────┼────────────┼──────────────┼──────────┼───────────┼──────┤ │
-│ │ EXP-2026- │ 12/08/2026 │ ⚠ Subsanación│ 2 días   │ J. Ramos  │ Abrir│ │
+│ │ EXP-2026- │ 12/08/2026 │ ⚠ Subsanación│ 2 días   │ N.Tejedor │ Abrir│ │
 │ │ 000318    │ 09:14:22   │   requerida  │ hábiles  │           │      │ │
 │ ├───────────┼────────────┼──────────────┼──────────┼───────────┼──────┤ │
-│ │ EXP-2026- │ 12/08/2026 │ ⏱ En revisión│ —        │ J. Ramos  │ Abrir│ │
+│ │ EXP-2026- │ 12/08/2026 │ ⏱ En revisión│ —        │ N.Tejedor │ Abrir│ │
 │ │ 000317    │ 08:52:07   │              │          │           │      │ │
 │ ├───────────┼────────────┼──────────────┼──────────┼───────────┼──────┤ │
 │ │ EXP-2026- │ 11/08/2026 │ ⬤ Registrado │ —        │ Sin       │ Abrir│ │
@@ -765,7 +778,7 @@ resuelve al revés, con el latón de fondo y la tinta encima.
 
 1. «Ir al contenido principal»
 2. Escudo / nombre (área de gestión)
-3. Menú de sesión «J. Ramos · Tramitador»
+3. Menú de sesión «N. Tejedor · Tramitadora»
 4. Miga «Inicio»
 5. Selector «Convocatoria»
 6. Selector «Estado»
@@ -794,7 +807,7 @@ llaman «Abrir» son diez enlaces indistinguibles para quien navega por lista de
 **Al recorrer una fila:**
 
 > «EXP 2026 000318. Registro: 12 de agosto de 2026, 09:14:22. Estado: Subsanación
-> requerida. Plazo: quedan 2 días hábiles. Asignado a: J. Ramos. Enlace: Abrir el
+> requerida. Plazo: quedan 2 días hábiles. Asignado a: Nuria Tejedor Peñalver. Enlace: Abrir el
 > expediente EXP 2026 000318.»
 
 **Al completar la acción principal** (aplicar un filtro), en región `polite`:
